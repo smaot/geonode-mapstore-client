@@ -32,19 +32,22 @@
                     <li>
                         <a href="{% block logo_href %}{% catalogue_home %}{% endblock %}">
                             {% if custom_theme.logo and custom_theme.logo.url %}
-                                    <img src="https://smaot.guanajuato.gob.mx/sitio/img/logo_2022.png"/>
+                                <img src="{{ custom_theme.logo.url }}">
                             {% else %}
-                                    <img src="https://smaot.guanajuato.gob.mx/sitio/img/logo_2022.png"/>
+                                <img src="https://smaot.guanajuato.gob.mx/sitio/img/logo_2022.png"/>
                             {% endif %}
                         </a>
                     </li>
                 </ul>
                 {% endblock %}
             </div>
-            <div class="gn-menu-content-center">
+            <!--div class="gn-menu-content-center">
                 {% block center_menu %}
                     {% include './search_bar.html' with search_bar_id='gn-search-bar' %}
                 {% endblock %}
+            </div-->
+            <div class="gn-menu-content-center h2">
+                Nodo SMAOT
             </div>
             <div class="gn-menu-content-right">
                 {% block right_menu %}
