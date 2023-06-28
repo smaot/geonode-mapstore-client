@@ -1,3 +1,4 @@
+{% load static %}
 <style type="text/css">
     .masfoot {
         text-align: left;
@@ -140,12 +141,10 @@
     }
 </style>
 <footer class="masfoot">
-
-
     <div class="container">
         <div class="row">
             <div class="col-xs-12 col-sm-3 naranja-icons">
-                <img class="mt-3" src="img/logo_2022.png" style="    max-width: 100%;margin: 20px 0px;">
+                <img class="mt-3" src="{% static 'img/logo_2022.png' %}" style="max-width: 100%;margin: 20px 0;" alt="logo">
                 <label class="marginb-t mgt-2">ATENCIÓN CIUDADANA</label>
                 <label><i class="fas fa-phone"></i> 473 735 2600</label>
                 <!-- <label><i class="fab fa-whatsapp"></i> 477 274 5825</label> -->
@@ -153,22 +152,27 @@
 
             </div>
             <div class="col-xs-12 col-sm-3">
-                <img src="img/igualdad.png" style="max-width: 99px;margin-bottom: 20px;">
+                <img src="{% static 'img/igualdad.png' %}" style="max-width: 99px;margin-bottom: 20px;" alt="igualdad">
                 <label class="marginb-t mgt-2">NUESTRA SEDE</label>
-                <p><a href="https://goo.gl/maps/JJc97bb9bJVKLXEE8" target="_blank">
-                <p><i class="fas fa-map-marker-alt"></i> Aldana 12 esq. República Mexicana,<br/>
-                    Col. Pueblito de Rocha, C.P. 36040<br/>
-                    Guanajuato, Guanajuato, México</p><br/>
-                <p><a href="https://goo.gl/maps/UGwhUWXU3sasRgSR6" target="_blank">
-                <p><i class="fas fa-map-marker-alt"></i> Conjunto Administrativo Pozuelos<br/> Vialidad 1 s/n,<br/>
-                    Col. Centro, C.P. 36000<br/>
-                    Guanajuato, Guanajuato, México</p><br>
-
-
+                <p>
+                    <a href="https://goo.gl/maps/JJc97bb9bJVKLXEE8" target="_blank">
+                        <i class="fas fa-map-marker-alt"></i> Aldana 12 esq. República Mexicana,<br/>
+                        Col. Pueblito de Rocha, C.P. 36040<br/>
+                        Guanajuato, Guanajuato, México
+                    </a>
+                </p>
+                <br/>
+                <p>
+                    <a href="https://goo.gl/maps/UGwhUWXU3sasRgSR6" target="_blank">
+                        <i class="fas fa-map-marker-alt"></i> Conjunto Administrativo Pozuelos<br/> Vialidad 1 s/n,<br/>
+                        Col. Centro, C.P. 36000<br/>
+                        Guanajuato, Guanajuato, México
+                    </a>
+                </p>
+                <br>
             </div>
             <div class="col-xs-12 col-sm-3 mgt-4">
                 <label class="marginb-t">UNIDAD DE TRANSPARENCIA Y ARCHIVOS DEL PODER EJECUTIVO</label>
-
                 <p>
                     <a href="https://transparencia.guanajuato.gob.mx/transparencia/informacion_publica_micrositio.php?dependencia=125"
                        target="_blank" rel="noopener"><label style="cursor: pointer !important;">·
@@ -204,21 +208,19 @@
                 <!-- <a href="https://www.youtube.com/channel/UCdt5yCb992MlohnJQJa6S9A"><label class="marginb-t"><i class="fab fa-youtube"></i> @gobiernogto</label></a>
                 <a href="https://www.tiktok.com/@gobiernogto"><label class="marginb-t"><i class="fab fa-tiktok"></i> @gobiernogto</label></a>
                 <a href="https://open.spotify.com/show/3BCN6UEq9kD7HWtWJd9yNg?si=6H7bP1ReQSC7Qygd7x1nBQ"><label class="marginb-t"><i class="fab fa-spotify"></i> @gobiernogto</label></a> -->
-
             </div>
 
         </div>
         <div class="row">
             <div class="col-xs-12 col-sm-6 mgb-4">
-                <img class="mt-3" src="img/reportar.png" style="width: 20px;">
-                ¿Existe algún problema con esta página? <a class="reporte_a" href="mailto:soporte@guanajuato.gob.mx">Repórtalo
+                <img class="mt-3" src="{% static 'img/reportar.png' %}" style="width: 20px;" alt="reportar">
+                ¿Existe algún problema con esta página? <a class="reporte_a" href="mailto:jafrancov@guanajuato.gob.mx">Repórtalo
                 aquí.</a>
             </div>
             <div class="col-xs-12 col-sm-6 mgb-4">
                 <a class="reporte_a" href="https://smaot.guanajuato.gob.mx/sitio/upload/Aviso_Privacidad.pdf">Aviso de
-                    privacidad </a>&nbsp;&nbsp; © 2022 Gobierno del Estado de Guanajuato
+                    privacidad </a>&nbsp;&nbsp; © <script>document.write(new Date().getFullYear())</script> Gobierno del Estado de Guanajuato
             </div>
         </div>
     </div>
-
 </footer>

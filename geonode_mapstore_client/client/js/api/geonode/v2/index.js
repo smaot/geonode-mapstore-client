@@ -9,7 +9,10 @@
 import axios from '@mapstore/framework/libs/ajax';
 import {
     parseDevHostname,
-    getApiToken
+    getApiToken,
+    paramsSerializer,
+    getGeoNodeConfig,
+    getGeoNodeLocalConfig
 } from '@js/utils/APIUtils';
 import merge from 'lodash/merge';
 import mergeWith from 'lodash/mergeWith';
@@ -45,7 +48,8 @@ let endpoints = {
     'groups': '/api/v2/groups',
     'uploads': '/api/v2/uploads',
     'status': '/api/v2/resource-service/execution-status',
-    'exectionRequest': '/api/v2/executionrequest'
+    'exectionRequest': '/api/v2/executionrequest',
+    'facets': '/api/v2/facets'
 };
 
 const RESOURCES = 'resources';
@@ -63,29 +67,10 @@ const GROUPS = 'groups';
 const UPLOADS = 'uploads';
 const STATUS = 'status';
 const EXECUTIONREQUEST = 'exectionRequest';
+const FACETS = 'facets';
 
 function addCountToLabel(name, count) {
     return `${name} (${count || 0})`;
-}
-
-// some fields such as search_fields does not support the array notation `key[]=value1&key[]=value2`
-// this function will parse all values included array in the `key=value1&key=value2` format
-function addQueryString(requestUrl, params) {
-    if (!params) {
-        return requestUrl;
-    }
-    const queryString = Object.keys(params)
-        .reduce((str, key, idx) => {
-            const start = idx === 0 ? '?' : '&';
-            const values = castArray(params[key]);
-            if (values.length > 1) {
-                return str + values.reduce((valStr, value, jdx) => {
-                    return valStr + (jdx === 0 ? start : '&') + key + '=' + value;
-                }, '');
-            }
-            return str + start + key + '=' + values[0];
-        }, '');
-    return `${requestUrl}${queryString}`;
 }
 
 export const setEndpoints = (data) => {
@@ -97,7 +82,8 @@ export const setEndpoints = (data) => {
  */
 export const getEndpoints = () => {
     const apikey = getApiToken();
-    return axios.get('/api/v2/', {
+    const endpointV2 = getGeoNodeLocalConfig('geoNodeApi.endpointV2', '/api/v2/');
+    return axios.get(endpointV2, {
         params: {
             ...(apikey && { apikey })
         }
@@ -146,21 +132,22 @@ export const getResources = ({
     const customQuery = customFilters
         .filter(({ id }) => castArray(f || []).indexOf(id) !== -1)
         .reduce((acc, filter) => mergeCustomQuery(acc, filter.query || {}), {}) || {};
-
-    return axios.get(parseDevHostname(
-        addQueryString(endpoints[RESOURCES], q && {
+    const _mergeCustomQueryParams = mergeCustomQuery(params, customQuery);
+    const _params = {
+        ..._mergeCustomQueryParams,
+        ...(q && {
             search: q,
             search_fields: ['title', 'abstract']
-        })
-    ), {
-        params: {
-            ...mergeCustomQuery(params, customQuery),
-            ...(sort && { sort: isArray(sort) ? sort : [ sort ]}),
-            page,
-            page_size: pageSize,
-            'filter{metadata_only}': false, // exclude resources such as services
-            include: ['executions']
-        }
+        }),
+        ...(sort && { sort: isArray(sort) ? sort : [ sort ]}),
+        page,
+        page_size: pageSize,
+        'filter{metadata_only}': false, // exclude resources such as services
+        include: ['executions']
+    };
+    return axios.get(parseDevHostname(endpoints[RESOURCES]), {
+        params: _params,
+        paramsSerializer
     })
         .then(({ data }) => {
             return {
@@ -183,19 +170,19 @@ export const getMaps = ({
 }) => {
     return axios
         .get(
-            parseDevHostname(
-                addQueryString(endpoints[MAPS], q && {
-                    search: q,
-                    search_fields: ['title', 'abstract']
-                })
-            ), {
+            parseDevHostname(endpoints[MAPS]), {
                 // axios will format query params array to `key[]=value1&key[]=value2`
                 params: {
                     ...params,
+                    ...(q && {
+                        search: q,
+                        search_fields: ['title', 'abstract']
+                    }),
                     ...(sort && { sort: isArray(sort) ? sort : [ sort ]}),
                     page,
                     page_size: pageSize
-                }
+                },
+                paramsSerializer
             })
         .then(({ data }) => {
             return {
@@ -218,19 +205,19 @@ export const getDatasets = ({
 }) => {
     return axios
         .get(
-            parseDevHostname(
-                addQueryString(endpoints[DATASETS], q && {
-                    search: q,
-                    search_fields: ['title', 'abstract']
-                })
-            ), {
+            parseDevHostname(endpoints[DATASETS]), {
                 // axios will format query params array to `key[]=value1&key[]=value2`
                 params: {
                     ...params,
+                    ...(q && {
+                        search: q,
+                        search_fields: ['title', 'abstract']
+                    }),
                     ...(sort && { sort: isArray(sort) ? sort : [ sort ]}),
                     page,
                     page_size: pageSize
-                }
+                },
+                paramsSerializer
             })
         .then(({ data }) => {
             return {
@@ -254,20 +241,19 @@ export const getDocumentsByDocType = (docType = 'image', {
 
     return axios
         .get(
-            parseDevHostname(
-                addQueryString(endpoints[DOCUMENTS], q && {
-                    search: q,
-                    search_fields: ['title', 'abstract']
-                })
-            ), {
-                // axios will format query params array to `key[]=value1&key[]=value2`
+            parseDevHostname(endpoints[DOCUMENTS]), {
                 params: {
                     ...params,
+                    ...(q && {
+                        search: q,
+                        search_fields: ['title', 'abstract']
+                    }),
                     ...(sort && { sort: isArray(sort) ? sort : [ sort ]}),
                     'filter{subtype}': [docType],
                     page,
                     page_size: pageSize
-                }
+                },
+                paramsSerializer
             })
         .then(({ data }) => {
             return {
@@ -306,6 +292,16 @@ export const getResourceByPk = (pk) => {
         .then(({ data }) => data.resource);
 };
 
+export const getLinkedResourcesByPk = (pk) => {
+    return axios.get(parseDevHostname(`${endpoints[RESOURCES]}/${pk}/linked_resources`), {
+        params: {
+            'page': 1,
+            'page_size': 99999
+        }
+    })
+        .then(({ data }) => data.resources ?? []);
+};
+
 export const getResourceByUuid = (uuid) => {
     return axios.get(parseDevHostname(`${endpoints[RESOURCES]}`), {
         params: {
@@ -327,6 +323,18 @@ export const getDocumentByPk = (pk) => {
         }
     })
         .then(({ data }) => data.document);
+};
+
+export const getDocumentsByPk = (pk) => {
+    const pks = castArray(pk);
+    return axios.get(parseDevHostname(`${endpoints[DOCUMENTS]}/`), {
+        params: {
+            'filter{pk.in}': pks,
+            page_size: pks.length
+        },
+        paramsSerializer
+    })
+        .then(({ data }) => data.documents);
 };
 
 export const createGeoApp = (body) => {
@@ -376,18 +384,18 @@ export const getUsers = ({
     ...params
 } = {}) => {
     return axios.get(
-        parseDevHostname(
-            addQueryString(endpoints[USERS], q && {
-                search: q,
-                search_fields: ['username', 'first_name', 'last_name']
-            })
-        ),
+        parseDevHostname(endpoints[USERS]),
         {
             params: {
                 ...params,
+                ...(q && {
+                    search: q,
+                    search_fields: ['username', 'first_name', 'last_name']
+                }),
                 page,
                 page_size: pageSize
-            }
+            },
+            paramsSerializer
         })
         .then(({ data }) => {
             return {
@@ -405,18 +413,18 @@ export const getGroups = ({
     ...params
 } = {}) => {
     return axios.get(
-        parseDevHostname(
-            addQueryString(endpoints[GROUPS], q && {
-                search: q,
-                search_fields: ['title', 'slug']
-            })
-        ),
+        parseDevHostname(endpoints[GROUPS]),
         {
             params: {
                 ...params,
+                ...(q && {
+                    search: q,
+                    search_fields: ['title', 'slug']
+                }),
                 page,
                 page_size: pageSize
-            }
+            },
+            paramsSerializer
         })
         .then(({ data }) => {
             return {
@@ -452,10 +460,10 @@ export const getAccountInfo = () => {
         .catch(() => null);
 };
 
-export const getConfiguration = (configUrl = '/static/mapstore/configs/localConfig.json') => {
+export const getConfiguration = (configUrl = getGeoNodeLocalConfig('staticPath', '/static/') + 'mapstore/configs/localConfig.json') => {
     return axios.get(configUrl)
         .then(({ data }) => {
-            const geoNodePageConfig = window.__GEONODE_CONFIG__ || {};
+            const geoNodePageConfig = getGeoNodeConfig();
             const geoNodePageLocalConfig = geoNodePageConfig.localConfig || {};
             const pluginsConfigPatchRules = geoNodePageConfig.pluginsConfigPatchRules || [];
 
@@ -584,6 +592,20 @@ export const getMapByPk = (pk) => {
             }
         })
         .then(({ data }) => data?.map);
+};
+
+export const getMapsByPk = (pk) => {
+    const pks = castArray(pk);
+    return axios.get(parseDevHostname(`${endpoints[MAPS]}/`),
+        {
+            params: {
+                include: ['data'],
+                'filter{pk.in}': pks,
+                page_size: pks.length
+            },
+            paramsSerializer
+        })
+        .then(({ data }) => data?.maps);
 };
 
 export const getFeaturedResources = (page = 1, page_size =  4) => {
@@ -861,10 +883,58 @@ export const deleteExecutionRequest = (executionId) => {
     return axios.delete(`${parseDevHostname(endpoints[EXECUTIONREQUEST])}/${executionId}`);
 };
 
+export const getResourceByTypeAndByPk = (type, pk) => {
+    switch (type) {
+    case "document":
+        return getDocumentByPk(pk);
+    case "dataset":
+        return getDatasetByPk(pk);
+    // Add type condition based on requirement
+    default:
+        return getResourceByPk(pk);
+    }
+};
+
+export const getFacetItemsByFacetName = ({ name: facetName, style, filterKey }, { config, ...params }) => {
+    return axios.get(`${parseDevHostname(endpoints[FACETS])}/${facetName}`, { ...config, params }).then(({data}) => {
+        const {page: _page = 0, items = [], total, page_size: size} = data?.topics ?? {};
+        const page = Number(_page);
+        const isNextPageAvailable = (Math.ceil(Number(total) / Number(size)) - (page + 1)) !== 0;
+        return {
+            page,
+            isNextPageAvailable,
+            items: items.map(({label, is_localized: isLocalized, key, count} = {})=> {
+                const item = {
+                    type: "filter",
+                    ...(isLocalized ? { label } : { labelId: label }),
+                    count,
+                    filterKey,
+                    filterValue: String(key),
+                    style
+                };
+                setFilterById(filterKey + key, item);
+                return item;
+            })
+        };
+    });
+};
+
+export const getFacetItems = () => {
+    return axios
+        .get(parseDevHostname(endpoints[FACETS]))
+        .then(({ data } = {}) =>
+            data?.facets?.map((facet) => ({
+                ...facet,
+                loadItems: getFacetItemsByFacetName
+            })) || []
+        ).catch(() => []);
+};
+
 export default {
     getEndpoints,
     getResources,
     getResourceByPk,
+    getLinkedResourcesByPk,
     getResourceByUuid,
     createGeoApp,
     getGeoAppByPk,
@@ -880,9 +950,11 @@ export default {
     getResourcesTotalCount,
     getDatasetByPk,
     getDocumentByPk,
+    getDocumentsByPk,
     createMap,
     updateMap,
     getMapByPk,
+    getMapsByPk,
     getCategories,
     getRegions,
     getOwners,
@@ -899,5 +971,8 @@ export default {
     getProcessedUploadsByImportId,
     uploadDocument,
     getExecutionStatus,
-    deleteExecutionRequest
+    deleteExecutionRequest,
+    getResourceByTypeAndByPk,
+    getFacetItems,
+    getFacetItemsByFacetName
 };

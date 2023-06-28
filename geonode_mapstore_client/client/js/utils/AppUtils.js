@@ -28,12 +28,14 @@ import isFunction from 'lodash/isFunction';
 
 import url from 'url';
 import axios from '@mapstore/framework/libs/ajax';
+import moment from 'moment';
 import { addLocaleData } from 'react-intl';
 import { setViewer } from '@mapstore/framework/utils/MapInfoUtils';
 
 // we need this configuration set for specific components that use recompose/rxjs streams
 import { setObservableConfig } from 'recompose';
 import rxjsConfig from 'recompose/rxjsObservableConfig';
+import { getGeoNodeConfig, getGeoNodeLocalConfig } from "@js/utils/APIUtils";
 setObservableConfig(rxjsConfig);
 
 let actionListeners = {};
@@ -95,6 +97,10 @@ export function initializeApp() {
             return config;
         }
     );
+    // Set proxy and authentication from geonode config
+    ['proxyUrl', 'useAuthenticationRules', 'authenticationRules'].forEach(key=> {
+        setConfigProp(key, getGeoNodeLocalConfig(key));
+    });
 }
 
 export function getPluginsConfiguration(pluginsConfig, key) {
@@ -154,6 +160,8 @@ function setupLocale(locale) {
                         });
                     });
             }
+            // setup locale for moment
+            moment.locale(locale);
             return locale;
         });
 }
@@ -173,7 +181,7 @@ export function setupConfiguration({
         supportedLocales: defaultSupportedLocales,
         ...config
     } = localConfig;
-    const geoNodePageConfig = window.__GEONODE_CONFIG__ || {};
+    const geoNodePageConfig = getGeoNodeConfig();
     Object.keys(config).forEach((key) => {
         setConfigProp(key, config[key]);
     });
@@ -237,7 +245,7 @@ export function setupConfiguration({
      *      msAPI.onAction('CHANGE_MAP_VIEW', onChangeMapView);
      *  });
      * </script>
-     * 
+     *
      * @example
      * <!--
      * use mapstore api offAction method to listen to an action only once
@@ -258,7 +266,7 @@ export function setupConfiguration({
      *      msAPI.onAction('CHANGE_MAP_VIEW', onChangeMapView);
      *  });
      * </script>
-     * 
+     *
      * @example
      * <!--
      * use mapstore api triggerAction method to dispatch an action
