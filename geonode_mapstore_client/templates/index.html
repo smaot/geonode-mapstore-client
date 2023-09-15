@@ -32,6 +32,17 @@
         {% endblock %}
 
         {% block content %}
+            <div class="big-search">
+                <div class="container">
+
+            <!-- leave commented <h1>Search for Data.</h1>  -->
+                  <div class="search">
+                    {% include './geonode-mapstore-client/snippets/search_bar.html' with search_bar_id='gn-search-bar' %}
+                  </div>
+
+            <!--  leave commented <p><a class="btn btn-default btn-lg" href="/search/">Advanced Search</a></p> -->
+                </div>
+              </div>
             {% comment %}
                 <!-- example of content extension -->
                 <div class="gn-container">
