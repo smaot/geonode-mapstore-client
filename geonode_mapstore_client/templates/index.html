@@ -51,10 +51,10 @@
                     </div>
                 </div>
             {% endcomment %}
-            <div class="gn-container">
+            <!--div class="gn-container">
                 <div id="gn-home-featured-resources-grid"></div>
                 <div id="gn-home-resources-grid"></div>
-            </div>
+            </div-->
         {% endblock %}
 
         {% block container %}
@@ -69,7 +69,7 @@
         {% endblock %}
 
         <script>
-            window.addEventListener('mapstore:ready', function (event) {
+            /*window.addEventListener('mapstore:ready', function (event) {
                 const msAPI = event.detail;
                 msAPI.setPluginsConfig([
                     {
@@ -96,7 +96,7 @@
                     {name: 'DownloadResource'},
                     {name: 'Notifications'}
                 ]);
-            });
+            });*/
         </script>
 
         {% block ms_scripts %}
