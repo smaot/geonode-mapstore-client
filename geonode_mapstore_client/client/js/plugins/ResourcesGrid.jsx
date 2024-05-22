@@ -31,7 +31,7 @@ import { withResizeDetector } from 'react-resize-detector';
 import { userSelector } from '@mapstore/framework/selectors/security';
 import ConnectedCardGrid from '@js/plugins/resourcesgrid/ConnectedCardGrid';
 import { getTotalResources, getFacetsItems } from '@js/selectors/search';
-import { searchResources, setSearchConfig, getFacetItems } from '@js/actions/gnsearch';
+import { searchResources, setSearchConfig, getFacetItems, setFilters as setFiltersAction } from '@js/actions/gnsearch';
 
 import gnsearch from '@js/reducers/gnsearch';
 import gnresource from '@js/reducers/gnresource';
@@ -43,10 +43,9 @@ import resourceServiceEpics from '@js/epics/resourceservice';
 import favoriteEpics from '@js/epics/favorite';
 import DetailsPanel from '@js/components/DetailsPanel';
 import { processingDownload } from '@js/selectors/resourceservice';
-import {resourceHasPermission} from '@js/utils/ResourceUtils';
+import { resourceHasPermission, getCataloguePath } from '@js/utils/ResourceUtils';
 import {downloadResource, setFavoriteResource} from '@js/actions/gnresource';
 import FiltersForm from '@js/components/FiltersForm';
-import {getCategories, getRegions, getOwners, getKeywords} from '@js/api/geonode/v2';
 import usePluginItems from '@js/hooks/usePluginItems';
 import { ProcessTypes } from '@js/utils/ResourceServiceUtils';
 import { replace } from 'connected-react-router';
@@ -55,25 +54,6 @@ import Button from '@js/components/Button';
 import useLocalStorage from '@js/hooks/useLocalStorage';
 import MainLoader from '@js/components/MainLoader';
 import detailViewerEpics from '@js/epics/detailviewer';
-
-const suggestionsRequestTypes = {
-    categories: {
-        filterKey: 'filter{category.identifier.in}',
-        loadOptions: params => getCategories(params, 'filter{category.identifier.in}')
-    },
-    keywords: {
-        filterKey: 'filter{keywords.slug.in}',
-        loadOptions: params => getKeywords(params, 'filter{keywords.slug.in}')
-    },
-    regions: {
-        filterKey: 'filter{regions.name.in}',
-        loadOptions: params => getRegions(params, 'filter{regions.name.in}')
-    },
-    owners: {
-        filterKey: 'filter{owner.username.in}',
-        loadOptions: params => getOwners(params, 'filter{owner.username.in}')
-    }
-};
 
 const ConnectedDetailsPanel = connect(
     createSelector([
@@ -251,18 +231,19 @@ function ResourcesGrid({
             type: 'dropdown',
             variant: 'primary',
             responsive: true,
+            noCaret: true,
             items: [
                 {
                     labelId: 'gnhome.uploadDataset',
                     value: 'layer',
                     type: 'link',
-                    href: '/catalogue/#/upload/dataset'
+                    href: '{context.getCataloguePath("/catalogue/#/upload/dataset")}'
                 },
                 {
                     labelId: 'gnhome.uploadDocument',
                     value: 'document',
                     type: 'link',
-                    href: '/catalogue/#/upload/document'
+                    href: '{context.getCataloguePath("/catalogue/#/upload/document")}'
                 },
                 {
                     labelId: 'gnhome.createDataset',
@@ -275,19 +256,19 @@ function ResourcesGrid({
                     labelId: 'gnhome.createMap',
                     value: 'map',
                     type: 'link',
-                    href: '/catalogue/#/map/new'
+                    href: '{context.getCataloguePath("/catalogue/#/map/new")}'
                 },
                 {
                     labelId: 'gnhome.createGeostory',
                     value: 'geostory',
                     type: 'link',
-                    href: '/catalogue/#/geostory/new'
+                    href: '{context.getCataloguePath("/catalogue/#/geostory/new")}'
                 },
                 {
                     labelId: 'gnhome.createDashboard',
                     value: 'dashboard',
                     type: 'link',
-                    href: '/catalogue/#/dashboard/new'
+                    href: '{context.getCataloguePath("/catalogue/#/dashboard/new")}'
                 },
                 {
                     labelId: 'gnhome.remoteServices',
@@ -376,6 +357,11 @@ function ResourcesGrid({
                     type: 'filter'
                 },
                 {
+                    id: 'mapviewer',
+                    labelId: 'gnhome.mapviewers',
+                    type: 'filter'
+                },
+                {
                     id: 'geostory',
                     labelId: 'gnhome.geostories',
                     type: 'filter'
@@ -392,32 +378,28 @@ function ResourcesGrid({
             disableIf: '{!state("user")}'
         },
         {
-            labelId: 'gnhome.categories',
-            placeholderId: 'gnhome.categoriesPlaceholder',
             type: 'select',
-            suggestionsRequestKey: 'categories'
+            facet: "category"
         },
         {
-            labelId: 'gnhome.keywords',
-            placeholderId: 'gnhome.keywordsPlaceholder',
             type: 'select',
-            suggestionsRequestKey: 'keywords'
+            facet: "keyword"
         },
         {
-            labelId: 'gnhome.regions',
-            placeholderId: 'gnhome.regionsPlaceholder',
             type: 'select',
-            suggestionsRequestKey: 'regions'
+            facet: 'place'
         },
         {
-            labelId: 'gnhome.owners',
-            placeholderId: 'gnhome.ownersPlaceholder',
             type: 'select',
-            suggestionsRequestKey: 'owners'
+            facet: 'user'
+        },
+        {
+            type: 'select',
+            facet: "group"
         },
         {
             type: "accordion",
-            style: "facet",
+            style: "facet", // style can be facet or filter (checkbox)
             facet: "thesaurus"
         },
         {
@@ -450,7 +432,7 @@ function ResourcesGrid({
     pagination,
     disableDetailPanel,
     disableFilters,
-    filterPagePath = '/catalogue/#/search/filter',
+    filterPagePath = getCataloguePath('/catalogue/#/search/filter'),
     resourceCardActionsOrder = [
         ProcessTypes.DELETE_RESOURCE,
         ProcessTypes.COPY_RESOURCE,
@@ -461,7 +443,9 @@ function ResourcesGrid({
     enableGeoNodeCardsMenuItems,
     detailsTabs = [],
     onGetFacets,
-    facets
+    facets,
+    filters,
+    setFilters
 }, context) {
 
     const [_cardLayoutStyleState, setCardLayoutStyle] = useLocalStorage('layoutCardsStyle', defaultCardLayoutStyle);
@@ -482,11 +466,16 @@ function ResourcesGrid({
     const { loadedPlugins } = context;
     const configuredItems = usePluginItems({ items, loadedPlugins }, []);
 
-    const cardOptions = [...configuredItems.map(({ name, Component }) => ({
-        type: 'plugin',
-        Component,
-        action: name
-    }))].sort((a, b) => resourceCardActionsOrder.indexOf(a.action) - resourceCardActionsOrder.indexOf(b.action));
+    const cardOptions = [...configuredItems
+        .filter(item => item.target === 'cardOptions')
+        .map(({ name, Component }) => ({
+            type: 'plugin',
+            Component,
+            action: name
+        }))].sort((a, b) => resourceCardActionsOrder.indexOf(a.action) - resourceCardActionsOrder.indexOf(b.action));
+
+    const detailsToolbarItems = configuredItems
+        .filter(item => (item.target === "cardOptions" && item.detailsToolbar) || item.target === "detailsToolbar");
 
     const updatedLocation = useRef();
     updatedLocation.current = location;
@@ -661,12 +650,13 @@ function ResourcesGrid({
                     fields={parsedConfig.filtersFormItems}
                     facets={facets}
                     extentProps={parsedConfig.extent}
-                    suggestionsRequestTypes={suggestionsRequestTypes}
                     query={query}
                     onChange={handleUpdate}
                     onClose={handleShowFilterForm.bind(null, false)}
                     onClear={handleClear}
                     onGetFacets={onGetFacets}
+                    filters={filters}
+                    setFilters={setFilters}
                 />}
             </div>
         </div>
@@ -692,6 +682,7 @@ function ResourcesGrid({
                     linkHref={closeDetailPanelHref}
                     formatHref={handleFormatHref}
                     tabs={parsedConfig.detailsTabs}
+                    toolbarItems={detailsToolbarItems}
                 />}
             </div>
         </div>
@@ -812,8 +803,9 @@ const ResourcesGridPlugin = connect(
         state => state?.gnresource?.data || null,
         state => getMonitoredState(state, getConfigProp('monitorState')),
         state => state?.gnsearch?.error,
-        getFacetsItems
-    ], (params, user, totalResources, loading, location, resource, monitoredState, error, facets) => ({
+        getFacetsItems,
+        state => state?.gnsearch?.filters
+    ], (params, user, totalResources, loading, location, resource, monitoredState, error, facets, filters) => ({
         params,
         user,
         totalResources,
@@ -822,13 +814,15 @@ const ResourcesGridPlugin = connect(
         resource,
         monitoredState,
         error,
-        facets
+        facets,
+        filters
     })),
     {
         onSearch: searchResources,
         onInit: setSearchConfig,
         onReplaceLocation: replace,
-        onGetFacets: getFacetItems
+        onGetFacets: getFacetItems,
+        setFilters: setFiltersAction
     }
 )(withResizeDetector(ResourcesGrid));
 

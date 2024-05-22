@@ -1,271 +1,258 @@
-<!DOCTYPE html>
 {% load static %}
 {% load client_version %}
-<html class="msgapi" lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="{% static 'fonts/montserrat.css' %}" rel="stylesheet">
-    <link href="{% static 'fontawesomefree/css/all.min.css' %}" rel="stylesheet" type="text/css">
-    <link href="{% static 'mapstore/dist/themes/geonode.css' %}?{% client_version %}" rel="stylesheet"/>
-    <title>{{ SITE_NAME }}</title>
-    <link rel="shortcut icon" href="{% static 'geonode/img/favicon.ico' %}"/>
-    {% include './geonode-mapstore-client/snippets/loader_style.html' %}
+<!DOCTYPE html>
+<html class="msgapi">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="{% static 'fonts/montserrat.css' %}" rel="stylesheet">
+        <link href="{% static 'fontawesomefree/css/all.min.css' %}" rel="stylesheet" type="text/css">
+        <link href="{% static 'mapstore/dist/themes/geonode.css' %}?{% client_version %}" rel="stylesheet" />
+        <title>{{ SITE_NAME }}</title>
+        <link rel="shortcut icon" href="{% static 'geonode/img/favicon.ico' %}" />
+        {% include './geonode-mapstore-client/snippets/loader_style.html' %}
 
-    {% block custom_theme %}
-        {% include './geonode-mapstore-client/snippets/custom_theme.html' %}
-    {% endblock %}
-
-    {% block extra_style %}
-    {% endblock %}
-
-    {% block extra_head %}
-    {% endblock %}
-</head>
-<body class="msgapi ms2" data-ms2-container="ms2">
-<div class="gn-page-wrapper {% if request.user_agent.is_mobile %}gn-mobile{% else %}gn-desktop{% endif %}">
-    <div class="gn-theme gn-homepage">
-        {% include './geonode-mapstore-client/_geonode_config.html' %}
-        {% block header %}
-            {% include './geonode-mapstore-client/snippets/header.html' with show_hero=True %}
+        {% block custom_theme %}
+            {% include './geonode-mapstore-client/snippets/custom_theme.html' %}
         {% endblock %}
 
-        {% block content %}
-            <div class="big-search">
-                <div class="container">
+        {% block extra_style %}
+        {% endblock %}
 
-            <!-- leave commented <h1>Search for Data.</h1>  -->
-                  <div class="search">
-                    {% include './geonode-mapstore-client/snippets/search_bar.html' with search_bar_id='gn-search-bar' %}
+        {% block extra_head %}
+        {% endblock %}
+    </head>
+    <body class="msgapi ms2" data-ms2-container="ms2">
+    <div class="gn-page-wrapper {% if request.user_agent.is_mobile %}gn-mobile{% else %}gn-desktop{% endif %}">
+        <div class="gn-theme gn-homepage">
+            {% include './geonode-mapstore-client/_geonode_config.html' %}
+            {% block header %}
+                {% include './geonode-mapstore-client/snippets/header.html' with show_hero=True %}
+            {% endblock %}
+
+            {% block content %}
+                <div class="big-search">
+                    <div class="container">
+
+                <!-- leave commented <h1>Search for Data.</h1>  -->
+                      <div class="search">
+                        {% include './geonode-mapstore-client/snippets/search_bar.html' with search_bar_id='gn-search-bar' %}
+                      </div>
+
+                <!--  leave commented <p><a class="btn btn-default btn-lg" href="/search/">Advanced Search</a></p> -->
+                    </div>
                   </div>
 
-            <!--  leave commented <p><a class="btn btn-default btn-lg" href="/search/">Advanced Search</a></p> -->
-                </div>
-              </div>
-
-            <div class="container-fluid" style="background-color: white;">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <br>
-                                <h2 style="font-size: 3em;
-                                position: relative;
-                                z-index: 0;
-                                font-weight: 900;
-                                text-transform: uppercase;">
-                                    RECURSOS <span style="color:#86A438">NATURALES</span>
-                                </h2>
-                                <h3 class="text-right" style="color: rgba(30, 37, 48, 0.04); font-size: 10em; text-align: right; letter-spacing: 10px;
-                                line-height: 0.7; transform: translateY(-70%); z-index: -1; font-weight: 900;">
-                                    BIODIVERSIDAD.
-                                </h3>
-                                <div class="row">
-                                    <div class="col-md-2">
-                                    </div>
-                                    <div class="col-md-8">
-                                        <p class="text-center text-muted align-middle" style="font-size: 14px;
-                                        font-style: italic;
-                                        line-height: 24px;  padding:27px 30px 29px 2px; margin-top: -10%;">
-                                            Se entiende por Diversidad Biológica a la variabilidad de organismos vivos de
-                                            cualquier fuente, incluidos, entre otros, los ecosistemas terrestres y marinos y
-                                            otros ecosistemas acuáticos, así como los complejos ecológicos de los que forman
-                                            parte; comprende la diversidad a nivel de ecosistemas, especies y genes.
-                                        </p>
-                                    </div>
-                                    <div class="col-md-2">
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-1">
-                                    </div>
-                                    <div class="col-md-5">
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                <a href="http://192.168.17.30:8081/monarca/index.html">
-                                                <img alt="Bootstrap Image Preview"
-                                                    src="https://topadventure.com/__export/1642790412177/sites/laverdad/img/2022/01/21/santuario_mariposa_monarca_portada.jpg_1937082546.jpg"
-                                                    class="img-fluid " style="margin-left: auto;
-                                                margin-right: auto; border-radius: 50%;
-                                                display: block; width: 70%;" /></a>
-                                            </div>
-                                            <div class="col-md-8">
-                                                <br>
-                                                <p class="text-right text-muted align-middle" style="font-size: 14px;
-                                                font-style: italic; text-align: left;
-                                                ">
-                                                    Guanajuato es el estado en el que se juntan las rutas migratorias de
-                                                    mariposa
-                                                    monarca que
-                                                    van al estado de México y Michoacán a pasar el invierno..
-                                                </p>
-                                            </div>
+                <div class="container-fluid" style="background-color: white;">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <br>
+                                    <h2 style="font-size: 3em;
+                                    position: relative;
+                                    z-index: 0;
+                                    font-weight: 900;
+                                    text-transform: uppercase;">
+                                        RECURSOS <span style="color:#86A438">NATURALES</span>
+                                    </h2>
+                                    <h3 class="text-right" style="color: rgba(30, 37, 48, 0.04); font-size: 10em; text-align: right; letter-spacing: 10px;
+                                    line-height: 0.7; transform: translateY(-70%); z-index: -1; font-weight: 900;">
+                                        BIODIVERSIDAD.
+                                    </h3>
+                                    <div class="row">
+                                        <div class="col-md-2">
                                         </div>
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                <br>
-                                                <h6 class="text-center" style="font-size: .9em;">
+                                        <div class="col-md-8">
+                                            <p class="text-center text-muted align-middle" style="font-size: 14px;
+                                            font-style: italic;
+                                            line-height: 24px;  padding:27px 30px 29px 2px; margin-top: -10%;">
+                                                Se entiende por Diversidad Biológica a la variabilidad de organismos vivos de
+                                                cualquier fuente, incluidos, entre otros, los ecosistemas terrestres y marinos y
+                                                otros ecosistemas acuáticos, así como los complejos ecológicos de los que forman
+                                                parte; comprende la diversidad a nivel de ecosistemas, especies y genes.
+                                            </p>
+                                        </div>
+                                        <div class="col-md-2">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-1">
+                                        </div>
+                                        <div class="col-md-5">
+                                            <div class="row">
+                                                <div class="col-md-4">
                                                     <a href="http://192.168.17.30:8081/monarca/index.html">
-                                                    Mariposa Monarca
-                                                    </a>
-                                                </h6>
+                                                    <img alt="Bootstrap Image Preview"
+                                                        src="https://topadventure.com/__export/1642790412177/sites/laverdad/img/2022/01/21/santuario_mariposa_monarca_portada.jpg_1937082546.jpg"
+                                                        class="img-fluid " style="margin-left: auto;
+                                                    margin-right: auto; border-radius: 50%;
+                                                    display: block; width: 70%;" /></a>
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <br>
+                                                    <p class="text-right text-muted align-middle" style="font-size: 14px;
+                                                    font-style: italic; text-align: left;
+                                                    ">
+                                                        Guanajuato es el estado en el que se juntan las rutas migratorias de
+                                                        mariposa
+                                                        monarca que
+                                                        van al estado de México y Michoacán a pasar el invierno..
+                                                    </p>
+                                                </div>
                                             </div>
-                                            <div class="col-md-8">
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <br>
+                                                    <h6 class="text-center" style="font-size: .9em;">
+                                                        <a href="http://192.168.17.30:8081/monarca/index.html">
+                                                        Mariposa Monarca
+                                                        </a>
+                                                    </h6>
+                                                </div>
+                                                <div class="col-md-8">
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="col-md-5">
-                                        <div class="row">
-                                            <div class="col-md-8">
-                                                <br>
-                                                <p class="text-right text-muted" style="font-size: 14px;
-                                                font-style: italic; text-align: right;
-                                                ">
-                                                    La biodiversidad es la base del sustento material de los pueblos y fuente de
-                                                    diversos bienes
-                                                    y servicios ecológicos.
-                                                </p>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <a href="http://192.168.17.30:8081/inventario/">
-                                                <img alt="Bootstrap Image Preview"
-                                                    src="https://gluc.mx/u/fotografias/m/2020/5/11/f638x638-26848_85015_5050.jpg"
-                                                    class="img-fluid " style="margin-left: auto;
-                                                margin-right: auto; border-radius: 50%;
-                                                display: block; width: 70%;" />
-                                                </a>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-8">
-                                            </div>
-                                            <div class="col-md-4">
-                                                <br>
-                                                <h5 class="text-center" style="font-size: .9em;">
-
+                                        <div class="col-md-5">
+                                            <div class="row">
+                                                <div class="col-md-8">
+                                                    <br>
+                                                    <p class="text-right text-muted" style="font-size: 14px;
+                                                    font-style: italic; text-align: right;
+                                                    ">
+                                                        La biodiversidad es la base del sustento material de los pueblos y fuente de
+                                                        diversos bienes
+                                                        y servicios ecológicos.
+                                                    </p>
+                                                </div>
+                                                <div class="col-md-4">
                                                     <a href="http://192.168.17.30:8081/inventario/">
-                                                        Inventario de Especies Vegetales
+                                                    <img alt="Bootstrap Image Preview"
+                                                        src="https://gluc.mx/u/fotografias/m/2020/5/11/f638x638-26848_85015_5050.jpg"
+                                                        class="img-fluid " style="margin-left: auto;
+                                                    margin-right: auto; border-radius: 50%;
+                                                    display: block; width: 70%;" />
                                                     </a>
-                                                </h5>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-8">
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <br>
+                                                    <h5 class="text-center" style="font-size: .9em;">
+
+                                                        <a href="http://192.168.17.30:8081/inventario/">
+                                                            Inventario de Especies Vegetales
+                                                        </a>
+                                                    </h5>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="col-md-1">
+                                        <div class="col-md-1">
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="container-fluid" style="background-color: whitesmoke;">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <br>
-                                <h2 style="font-size: 3em;
-                                position: relative;
-                                z-index: 0;
-                                font-weight: 900;
-                                text-transform: uppercase; text-align: right;">
-                                    <span style="color:#86A438">GESTION </span>AMBIENTAL
-                                </h2>
-                                <h3 class="text-left" style="color: rgba(30, 37, 48, 0.05); font-size: 10em; text-align: right; letter-spacing: 10px;
-                                line-height: 0.7; transform: translateY(-70%); z-index: -1; font-weight: 900;">
-                                    PROTECCIÓN.
-                                </h3>
-                                <div class="row">
-                                    <div class="col-md-2">
+                <div class="container-fluid" style="background-color: whitesmoke;">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <br>
+                                    <h2 style="font-size: 3em;
+                                    position: relative;
+                                    z-index: 0;
+                                    font-weight: 900;
+                                    text-transform: uppercase; text-align: right;">
+                                        <span style="color:#86A438">GESTION </span>AMBIENTAL
+                                    </h2>
+                                    <h3 class="text-left" style="color: rgba(30, 37, 48, 0.05); font-size: 10em; text-align: right; letter-spacing: 10px;
+                                    line-height: 0.7; transform: translateY(-70%); z-index: -1; font-weight: 900;">
+                                        PROTECCIÓN.
+                                    </h3>
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                        </div>
+                                        <div class="col-md-8">
+                                            <p class="text-center text-muted align-middle" style="font-size: 14px;
+                                            font-style: italic;
+                                            line-height: 24px;  padding:27px 30px 29px 2px; margin-top: -10%;">
+                                                En México, la Ley General del Equilibrio Ecológico y la Protección al Ambiente
+                                                (LGEEPA) define al impacto ambiental como la “Modificación del ambiente ocasionada
+                                                por la acción del hombre o de la naturaleza”.
+                                            </p>
+                                        </div>
+                                        <div class="col-md-2">
+                                        </div>
                                     </div>
-                                    <div class="col-md-8">
-                                        <p class="text-center text-muted align-middle" style="font-size: 14px;
-                                        font-style: italic;
-                                        line-height: 24px;  padding:27px 30px 29px 2px; margin-top: -10%;">
-                                            En México, la Ley General del Equilibrio Ecológico y la Protección al Ambiente
-                                            (LGEEPA) define al impacto ambiental como la “Modificación del ambiente ocasionada
-                                            por la acción del hombre o de la naturaleza”.
-                                        </p>
-                                    </div>
-                                    <div class="col-md-2">
-                                    </div>
-                                </div>
 
 
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="row">
-                                            <div class="col-md-1">
-                                            </div>
-                                            <div class="col-md-5">
-                                                <div class="row">
-                                                    <div class="col-md-6 text-center">
-                                                        <img class="img-fluid" alt="Bootstrap Image Preview"
-                                                            style="border-radius: 5%; width: 75%; align-items: center;"
-                                                            src="https://www.cecgreen.com/wp-content/uploads/2020/11/medioambienteRecurso-1icono.png" />
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <h3>
-                                                            <div class="author-desc">
-                                                                <p style="color: #4E944F;
-                                                                letter-spacing: 1px;
-                                                                margin-bottom: 1px;
-                                                                text-transform: uppercase; "><b>Modelo de Ordenamiento
-                                                                        Sustentable del Territorio</b> </p>
-
-                                                            </div>
-                                                        </h3>
-                                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="row">
+                                                <div class="col-md-1">
                                                 </div>
-                                                <div class="row">
-                                                    <div class="col-md-12">
-                                                        <p style="font-weight: 400;
-                                                        font-size: 16px;
-                                                        line-height: 30px;
-                                                        color: #ababab;
-                                                        text-align: justify;
-          text-justify: inter-word;
-                                                    "><br>El modelo de Ordenamiento Sustentable del Territorio tiene por objeto
-                                                            establecer y orientar
-                                                            la política de usos del suelo en función de la vocación de los
-                                                            territorios, del impactoambiental que generan las actividades
-                                                            productivas en las regiones prioritarias o
-                                                            estratégicas del municipio. </p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-5 justify-content-center">
-                                                <div class="row">
-                                                    <div class="col-md-12">
-                                                        <h3 class="text-left">
-                                                            Mecanismos
-                                                        </h3>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-
-                                                    <ul class="list-group justify-content-center" style="background-color:whitesmoke">
-                                                        <li
-                                                        class="list-group-item d-flex justify-content-between align-items-center" style="background-color:whitesmoke">
-                                                        <div class="row">
-
-                                                            <div class="col-md-8">
-                                                                <a href="https://smaot.guanajuato.gob.mx/agave/">Compatibilidad Agave</a>
-                                                            </div>
-
-                                                            <div class="col-md-4 text-right">
-                                                                <img style="border-radius: 50px; width: 2em;" src="https://cdn.icon-icons.com/icons2/300/PNG/256/system-settings-icon_31831.png" />
-                                                            </div>
+                                                <div class="col-md-5">
+                                                    <div class="row">
+                                                        <div class="col-md-6 text-center">
+                                                            <img class="img-fluid" alt="Bootstrap Image Preview"
+                                                                style="border-radius: 5%; width: 75%; align-items: center;"
+                                                                src="https://www.cecgreen.com/wp-content/uploads/2020/11/medioambienteRecurso-1icono.png" />
                                                         </div>
-                                                    </li>
-                                                        <li
+                                                        <div class="col-md-6">
+                                                            <h3>
+                                                                <div class="author-desc">
+                                                                    <p style="color: #4E944F;
+                                                                    letter-spacing: 1px;
+                                                                    margin-bottom: 1px;
+                                                                    text-transform: uppercase; "><b>Modelo de Ordenamiento
+                                                                            Sustentable del Territorio</b> </p>
+
+                                                                </div>
+                                                            </h3>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <p style="font-weight: 400;
+                                                            font-size: 16px;
+                                                            line-height: 30px;
+                                                            color: #ababab;
+                                                            text-align: justify;
+              text-justify: inter-word;
+                                                        "><br>El modelo de Ordenamiento Sustentable del Territorio tiene por objeto
+                                                                establecer y orientar
+                                                                la política de usos del suelo en función de la vocación de los
+                                                                territorios, del impactoambiental que generan las actividades
+                                                                productivas en las regiones prioritarias o
+                                                                estratégicas del municipio. </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-5 justify-content-center">
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <h3 class="text-left">
+                                                                Mecanismos
+                                                            </h3>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+
+                                                        <ul class="list-group justify-content-center" style="background-color:whitesmoke">
+                                                            <li
                                                             class="list-group-item d-flex justify-content-between align-items-center" style="background-color:whitesmoke">
                                                             <div class="row">
 
                                                                 <div class="col-md-8">
-                                                                    <a href="http://192.168.17.30:8081/mias/monitoreo.html">MIAS</a>
+                                                                    <a href="https://smaot.guanajuato.gob.mx/agave/">Compatibilidad Agave</a>
                                                                 </div>
 
                                                                 <div class="col-md-4 text-right">
@@ -273,327 +260,342 @@
                                                                 </div>
                                                             </div>
                                                         </li>
-                                                        <li
-                                                            class="list-group-item d-flex justify-content-between align-items-center" style="background-color:whitesmoke">
-                                                            <div class="row">
+                                                            <li
+                                                                class="list-group-item d-flex justify-content-between align-items-center" style="background-color:whitesmoke">
+                                                                <div class="row">
 
-                                                                <div class="col-md-8">
-                                                                    <a href="http://192.168.17.30:8081/compensacion/calculo.html">Impacto Ambiental</a>
-                                                                </div>
+                                                                    <div class="col-md-8">
+                                                                        <a href="http://192.168.17.30:8081/mias/monitoreo.html">MIAS</a>
+                                                                    </div>
 
-                                                                <div class="col-md-4 text-right">
-                                                                    <img style="border-radius: 50px; width: 2em;" src="https://cdn.icon-icons.com/icons2/300/PNG/256/system-settings-icon_31831.png" />
+                                                                    <div class="col-md-4 text-right">
+                                                                        <img style="border-radius: 50px; width: 2em;" src="https://cdn.icon-icons.com/icons2/300/PNG/256/system-settings-icon_31831.png" />
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                        </li>
-                                                        <li
-                                                            class="list-group-item d-flex justify-content-between align-items-center" style="background-color:whitesmoke">
-                                                            <div class="row">
+                                                            </li>
+                                                            <li
+                                                                class="list-group-item d-flex justify-content-between align-items-center" style="background-color:whitesmoke">
+                                                                <div class="row">
 
-                                                                <div class="col-md-8">
-                                                                    <a href="http://192.168.17.30:8081/sdf/index.html">Sitios de Disposición Final</a>
-                                                                </div>
+                                                                    <div class="col-md-8">
+                                                                        <a href="http://192.168.17.30:8081/compensacion/calculo.html">Impacto Ambiental</a>
+                                                                    </div>
 
-                                                                <div class="col-md-4 text-right">
-                                                                    <img style="border-radius: 50px; width: 2em;" src="https://cdn.icon-icons.com/icons2/300/PNG/256/system-settings-icon_31831.png" />
+                                                                    <div class="col-md-4 text-right">
+                                                                        <img style="border-radius: 50px; width: 2em;" src="https://cdn.icon-icons.com/icons2/300/PNG/256/system-settings-icon_31831.png" />
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                        </li>
-                                                    </ul>
+                                                            </li>
+                                                            <li
+                                                                class="list-group-item d-flex justify-content-between align-items-center" style="background-color:whitesmoke">
+                                                                <div class="row">
+
+                                                                    <div class="col-md-8">
+                                                                        <a href="http://192.168.17.30:8081/sdf/index.html">Sitios de Disposición Final</a>
+                                                                    </div>
+
+                                                                    <div class="col-md-4 text-right">
+                                                                        <img style="border-radius: 50px; width: 2em;" src="https://cdn.icon-icons.com/icons2/300/PNG/256/system-settings-icon_31831.png" />
+                                                                    </div>
+                                                                </div>
+                                                            </li>
+                                                        </ul>
+
+                                                    </div>
 
                                                 </div>
-
-                                            </div>
-                                            <div class="col-md-1">
+                                                <div class="col-md-1">
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
 
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="container-fluid" style="background-color: white;">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <br>
-                                <h2 style="font-size: 3em;
-                                position: relative;
-                                z-index: 0;
-                                font-weight: 900;
-                                text-transform: uppercase; text-align: center;">
-                                    CAMBIO <span style="color:#86A438">CLIMATICO </span>
-                                </h2>
-                                <h3 class="text-left" style="color: rgba(30, 37, 48, 0.04); font-size: 10em; text-align: center; letter-spacing: 10px;
-                                line-height: 0.7; transform: translateY(-70%); z-index: -1; font-weight: 900;">
-                                    CONSERVACIÓN.
-                                </h3>
-                                <div class="row">
-                                    <div class="col-md-2">
-                                    </div>
-                                    <div class="col-md-8">
-                                        <p class="text-center text-muted align-middle" style="font-size: 14px;
-                                        font-style: italic;
-                                        line-height: 24px;  padding:27px 30px 29px 2px; margin-top: -10%;">
-                                            En Guanajuato, trabajamos en el fomento a la eficiencia energética mediante la
-                                            obtención de los mismos bienes y servicios energéticos, pero con mucha menos
-                                            energía, con la misma o mayor calidad de vida, con menos contaminación, a un precio
-                                            inferior al actual, alargando la vida de los recursos y con menos conflicto.</p>
-                                        </p>
-                                    </div>
-                                    <div class="col-md-2">
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="row">
-                                            <div class="col-md-1">
-                                            </div>
-                                            <div class="col-md-5">
-                                                <div class="page-header">
-                                                    <h3 style="color:#A2B38B">
-                                                        <a href="http://192.168.17.30:8081/solar/monitoreo.html">Celdad Fotovoltaicas</a>
-                                                    </h3>
-                                                </div>
-                                                <div class="progress">
-                                                    <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="70"
-                                                    aria-valuemin="0" aria-valuemax="100" style="width:70%">
-                                                      <span class="sr-only">70% Complete</span>
-                                                    </div>
-                                                  </div>
-                                            </div>
-                                            <div class="col-md-5">
-                                                <div class="page-header">
-                                                    <h3 style="color:#A2B38B">
-                                                        Calentadores Solares
-                                                    </h3>
-                                                </div>
-                                                <div class="progress">
-                                                    <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="70"
-                                                    aria-valuemin="0" aria-valuemax="100" style="width:70%">
-                                                      <span class="sr-only"></span>
-                                                    </div>
-                                                  </div>
-                                            </div>
-                                            <div class="col-md-1">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <br>
-            </div>
-            <div class="container-fluid" style="background-color: whitesmoke;">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <br>
-                                <h2 style="font-size: 3em;
-                                position: relative;
-                                z-index: 0;
-                                font-weight: 900;
-                                text-transform: uppercase; text-align: right;">
-                                    <span style="color:#86A438">CALIDAD DEL </span>AIRE
-                                </h2>
-                                <h3 class="text-left" style="color: rgba(30, 37, 48, 0.05); font-size: 10em; text-align: right; letter-spacing: 10px;
-                                line-height: 0.7; transform: translateY(-70%); z-index: -1; font-weight: 900;">
-                                    P.M.
-                                </h3>
-                                <div class="row">
-                                    <div class="col-md-2">
-                                    </div>
-                                    <div class="col-md-8">
-                                        <p class="text-center text-muted align-middle" style="font-size: 14px;
-                                        font-style: italic;
-                                        line-height: 24px;  padding:27px 30px 29px 2px; margin-top: -5%;">
-                                            El monitoreo atmosférico, es uno de los indicadores principales de la calidad del
-                                            aire, además representa una valiosa herramienta de gestión para instrumentar
-                                            acciones de prevención y control de los contaminantes presentes en la atmósfera,
-                                            ante condiciones que ponen en riesgo la salud de los ciudadanos.
-                                        </p>
-                                    </div>
-                                    <div class="col-md-2">
-                                    </div>
-                                </div>
-
-
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="row">
-                                            <div class="col-md-1">
-                                            </div>
-                                            <div class="col-md-2">
-                                                <div class="row ">
-                                                    <div class="col-md-12 text-center">
-
-                                                        <i class="fa fa-envira" style="color:#004b23; font-size: 7em;" aria-hidden="true"></i>
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                        <h4 style="text-align:center; color:darkgrey">
-                                                            <a href="http://192.168.17.30:8081/visor/Index.html">S I M E G</a></h4>
-                                                        <p style="font-size: 14px;
-                                                        font-style: italic;
-                                                        line-height: 24px;">Sistema de Monitoreo de la calidad del Aire del
-                                                            Estado de Guanajuato</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-md-2">
-                                                <div class="row ">
-                                                    <div class="col-md-12 text-center">
-
-                                                        <i class="fa fa-globe" style="color:#006400; font-size: 7em;" aria-hidden="true"></i>
-
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                        <h4 style="text-align:center; color:darkgrey">
-                                                            <a href="https://earth.nullschool.net">Mapa de Viento</a>
-                                                        </h4>
-                                                        <p style="font-size: 14px;
-                                                        font-style: italic;
-                                                        line-height: 24px;">Estado actual de las condiciones ambientales en
-                                                            modelo 3d</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-
-                                            <div class="col-md-2 text-center">
-                                            </div>
-
-                                            <div class="col-md-2">
-                                                <div class="row ">
-                                                    <div class="col-md-12 text-center">
-
-                                                        <i class="fa fa-calendar-o" style="color:#007200; font-size: 7em;" aria-hidden="true"></i>
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                        <h4 style="text-align:center; color:darkgrey">
-                                                            <a href="http://192.168.17.30:8081/ceica/pronostico.html">Pronostico</a>
-                                                        </h4>
-                                                        <p style="font-size: 14px;
-                                                        font-style: italic;
-                                                        line-height: 24px;">Calidad del aire pronosticada con el modelo de la
-                                                            NASA por WRI para las proximas 72hrs</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-
-                                            <div class="col-md-2">
-                                                <div class="row ">
-                                                    <div class="col-md-12 text-center">
-
-                                                        <i class="fa fa-table" style="color:#008000; font-size: 7em;" aria-hidden="true"></i>
-                                                    </div>
-                                                    <div class="col-md-12">
-                                                        <h4 style="text-align:center; color:darkgrey">
-                                                            <a href="http://192.168.17.30:8081/ladrilleras/">Ladrilleras</a>
-                                                        </h4>
-                                                        <!--p style="font-size: 14px;
-                                                        font-style: italic;
-                                                        line-height: 24px;">Herramienta de BI para la realizacion de analisis
-                                                            de la información</p-->
-                                                    </div>
-                                                </div>
-                                            </div>
-
-
-
-                                            <div class="col-md-1">
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+                <div class="container-fluid" style="background-color: white;">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <br>
+                                    <h2 style="font-size: 3em;
+                                    position: relative;
+                                    z-index: 0;
+                                    font-weight: 900;
+                                    text-transform: uppercase; text-align: center;">
+                                        CAMBIO <span style="color:#86A438">CLIMATICO </span>
+                                    </h2>
+                                    <h3 class="text-left" style="color: rgba(30, 37, 48, 0.04); font-size: 10em; text-align: center; letter-spacing: 10px;
+                                    line-height: 0.7; transform: translateY(-70%); z-index: -1; font-weight: 900;">
+                                        CONSERVACIÓN.
+                                    </h3>
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                        </div>
+                                        <div class="col-md-8">
+                                            <p class="text-center text-muted align-middle" style="font-size: 14px;
+                                            font-style: italic;
+                                            line-height: 24px;  padding:27px 30px 29px 2px; margin-top: -10%;">
+                                                En Guanajuato, trabajamos en el fomento a la eficiencia energética mediante la
+                                                obtención de los mismos bienes y servicios energéticos, pero con mucha menos
+                                                energía, con la misma o mayor calidad de vida, con menos contaminación, a un precio
+                                                inferior al actual, alargando la vida de los recursos y con menos conflicto.</p>
+                                            </p>
+                                        </div>
+                                        <div class="col-md-2">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="row">
+                                                <div class="col-md-1">
+                                                </div>
+                                                <div class="col-md-5">
+                                                    <div class="page-header">
+                                                        <h3 style="color:#A2B38B">
+                                                            <a href="http://192.168.17.30:8081/solar/monitoreo.html">Celdad Fotovoltaicas</a>
+                                                        </h3>
+                                                    </div>
+                                                    <div class="progress">
+                                                        <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="70"
+                                                        aria-valuemin="0" aria-valuemax="100" style="width:70%">
+                                                          <span class="sr-only">70% Complete</span>
+                                                        </div>
+                                                      </div>
+                                                </div>
+                                                <div class="col-md-5">
+                                                    <div class="page-header">
+                                                        <h3 style="color:#A2B38B">
+                                                            Calentadores Solares
+                                                        </h3>
+                                                    </div>
+                                                    <div class="progress">
+                                                        <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="70"
+                                                        aria-valuemin="0" aria-valuemax="100" style="width:70%">
+                                                          <span class="sr-only"></span>
+                                                        </div>
+                                                      </div>
+                                                </div>
+                                                <div class="col-md-1">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
 
-            {% comment %}
-                <!-- example of content extension -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                </div>
+                <div class="container-fluid" style="background-color: whitesmoke;">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <br>
+                                    <h2 style="font-size: 3em;
+                                    position: relative;
+                                    z-index: 0;
+                                    font-weight: 900;
+                                    text-transform: uppercase; text-align: right;">
+                                        <span style="color:#86A438">CALIDAD DEL </span>AIRE
+                                    </h2>
+                                    <h3 class="text-left" style="color: rgba(30, 37, 48, 0.05); font-size: 10em; text-align: right; letter-spacing: 10px;
+                                    line-height: 0.7; transform: translateY(-70%); z-index: -1; font-weight: 900;">
+                                        P.M.
+                                    </h3>
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                        </div>
+                                        <div class="col-md-8">
+                                            <p class="text-center text-muted align-middle" style="font-size: 14px;
+                                            font-style: italic;
+                                            line-height: 24px;  padding:27px 30px 29px 2px; margin-top: -5%;">
+                                                El monitoreo atmosférico, es uno de los indicadores principales de la calidad del
+                                                aire, además representa una valiosa herramienta de gestión para instrumentar
+                                                acciones de prevención y control de los contaminantes presentes en la atmósfera,
+                                                ante condiciones que ponen en riesgo la salud de los ciudadanos.
+                                            </p>
+                                        </div>
+                                        <div class="col-md-2">
+                                        </div>
+                                    </div>
+
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="row">
+                                                <div class="col-md-1">
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <div class="row ">
+                                                        <div class="col-md-12 text-center">
+
+                                                            <i class="fa fa-envira" style="color:#004b23; font-size: 7em;" aria-hidden="true"></i>
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                            <h4 style="text-align:center; color:darkgrey">
+                                                                <a href="http://192.168.17.30:8081/visor/Index.html">S I M E G</a></h4>
+                                                            <p style="font-size: 14px;
+                                                            font-style: italic;
+                                                            line-height: 24px;">Sistema de Monitoreo de la calidad del Aire del
+                                                                Estado de Guanajuato</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-2">
+                                                    <div class="row ">
+                                                        <div class="col-md-12 text-center">
+
+                                                            <i class="fa fa-globe" style="color:#006400; font-size: 7em;" aria-hidden="true"></i>
+
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                            <h4 style="text-align:center; color:darkgrey">
+                                                                <a href="https://earth.nullschool.net">Mapa de Viento</a>
+                                                            </h4>
+                                                            <p style="font-size: 14px;
+                                                            font-style: italic;
+                                                            line-height: 24px;">Estado actual de las condiciones ambientales en
+                                                                modelo 3d</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="col-md-2 text-center">
+                                                </div>
+
+                                                <div class="col-md-2">
+                                                    <div class="row ">
+                                                        <div class="col-md-12 text-center">
+
+                                                            <i class="fa fa-calendar-o" style="color:#007200; font-size: 7em;" aria-hidden="true"></i>
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                            <h4 style="text-align:center; color:darkgrey">
+                                                                <a href="http://192.168.17.30:8081/ceica/pronostico.html">Pronostico</a>
+                                                            </h4>
+                                                            <p style="font-size: 14px;
+                                                            font-style: italic;
+                                                            line-height: 24px;">Calidad del aire pronosticada con el modelo de la
+                                                                NASA por WRI para las proximas 72hrs</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="col-md-2">
+                                                    <div class="row ">
+                                                        <div class="col-md-12 text-center">
+
+                                                            <i class="fa fa-table" style="color:#008000; font-size: 7em;" aria-hidden="true"></i>
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                            <h4 style="text-align:center; color:darkgrey">
+                                                                <a href="http://192.168.17.30:8081/ladrilleras/">Ladrilleras</a>
+                                                            </h4>
+                                                            <!--p style="font-size: 14px;
+                                                            font-style: italic;
+                                                            line-height: 24px;">Herramienta de BI para la realizacion de analisis
+                                                                de la información</p-->
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+
+                                                <div class="col-md-1">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {% comment %}
+                    <!-- example of content extension -->
+                    <div class="gn-container">
+                        <div class="gn-content">
+                            <!-- My custom content -->
+                        </div>
+                    </div>
+                {% endcomment %}
                 <div class="gn-container">
-                    <div class="gn-content">
-                        <!-- My custom content -->
-                    </div>
+                    <div id="gn-home-featured-resources-grid"></div>
+                    <div id="gn-home-resources-grid"></div>
                 </div>
-            {% endcomment %}
-            <!--div class="gn-container">
-                <div id="gn-home-featured-resources-grid"></div>
-                <div id="gn-home-resources-grid"></div>
-            </div-->
-        {% endblock %}
+            {% endblock %}
 
-        {% block container %}
-            <div id="ms-container">
-                <div class="gn-main-event-container">
-                    <div class="gn-main-event-content">
-                        <div class="gn-main-loader"></div>
-                        <div class="gn-main-event-text"></div>
+            {% block container %}
+                <div id="ms-container">
+                    <div class="gn-main-event-container">
+                        <div class="gn-main-event-content">
+                            <div class="gn-main-loader"></div>
+                            <div class="gn-main-event-text"></div>
+                        </div>
                     </div>
                 </div>
+            {% endblock %}
+
+                <script>
+                    window.addEventListener('mapstore:ready', function(event) {
+                        const catalogPagePath = window.__GEONODE_CONFIG__.localConfig.geoNodeSettings.catalogPagePath;
+                        const pagePath = catalogPagePath ? catalogPagePath : '/catalogue/';
+                        const msAPI = event.detail;
+                        msAPI.setPluginsConfig([
+                            {
+                                name: 'FeaturedResourcesGrid',
+                                cfg: {
+                                    targetSelector: '#gn-home-featured-resources-grid',
+                                    pagePath: pagePath
+                                }
+                            },
+                            {
+                                name: 'ResourcesGrid',
+                                cfg: {
+                                    targetSelector: '#gn-home-resources-grid',
+                                    containerSelector: '#gn-home-resources-grid',
+                                    pagination: false,
+                                    pagePath: pagePath,
+                                    disableFilters: true,
+                                    disableDetailPanel: true,
+                                    enableGeoNodeCardsMenuItems: true
+                                }
+                            },
+                            { name: 'SaveAs', cfg: { closeOnSave: true } },
+                            { name: 'DeleteResource' },
+                            { name: 'DownloadResource' },
+                            { name: 'Notifications' }
+                        ]);
+                    });
+                </script>
+    
+                {% block ms_scripts %}
+                    <script id="gn-script" src="{% static 'mapstore/dist/js/gn-components.js' %}?{% client_version %}"></script>
+                {% endblock %}
+    
+                {% block footer %}
+                    {% include './geonode-mapstore-client/snippets/footer.html' %}
+                {% endblock %}
+    
+                {% block scripts %}
+                    <script src="{% static "lib/js/jquery.min.js" %}"></script>
+                    <script src="{% static "lib/js/bootstrap.min.js" %}"></script>
+                    <script type="text/javascript">
+                        // enable dropdown functionalities
+                        $('.dropdown-toggle').dropdown();
+                    </script>
+                {% endblock %}
             </div>
-        {% endblock %}
-
-        <script>
-            /*window.addEventListener('mapstore:ready', function (event) {
-                const msAPI = event.detail;
-                msAPI.setPluginsConfig([
-                    {
-                        name: 'FeaturedResourcesGrid',
-                        cfg: {
-                            targetSelector: '#gn-home-featured-resources-grid',
-                            pagePath: '/catalogue/'
-                        }
-                    },
-                    {
-                        name: 'ResourcesGrid',
-                        cfg: {
-                            targetSelector: '#gn-home-resources-grid',
-                            containerSelector: '#gn-home-resources-grid',
-                            pagination: false,
-                            pagePath: '/catalogue/',
-                            disableFilters: true,
-                            disableDetailPanel: true,
-                            enableGeoNodeCardsMenuItems: true
-                        }
-                    },
-                    {name: 'SaveAs', cfg: {closeOnSave: true}},
-                    {name: 'DeleteResource'},
-                    {name: 'DownloadResource'},
-                    {name: 'Notifications'}
-                ]);
-            });*/
-        </script>
-
-        {% block ms_scripts %}
-            <script id="gn-script" src="{% static 'mapstore/dist/js/gn-components.js' %}?{% client_version %}"></script>
-        {% endblock %}
-
-        {% block footer %}
-            {% include './geonode-mapstore-client/snippets/footer.html' %}
-        {% endblock %}
-
-        {% block scripts %}
-            <script src="{% static "lib/js/jquery.min.js" %}"></script>
-            <script src="{% static "lib/js/bootstrap.min.js" %}"></script>
-            <script type="text/javascript">
-                // enable dropdown functionalities
-                $('.dropdown-toggle').dropdown();
-            </script>
-        {% endblock %}
-    </div>
-</div>
-</body>
+        </div>
+    </body>
 </html>
