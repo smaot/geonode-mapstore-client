@@ -15,8 +15,11 @@ import {
     getResourceThumbnail,
     updatingThumbnailResource,
     isThumbnailChanged,
-    canEditPermissions
+    canEditPermissions,
+    canManageResourcePermissions,
+    isNewMapViewerResource
 } from '../resource';
+import { ResourceTypes } from '@js/utils/ResourceUtils';
 
 const testState = {
     gnresource: {
@@ -79,5 +82,19 @@ describe('resource selector', () => {
 
     it('should get permissions from users in groups with manage rights', () => {
         expect(canEditPermissions(testState)).toBeTruthy();
+    });
+    it('test manage resource permissions', () => {
+        let state = {...testState};
+        state.gnresource.data.perms = ['change_resourcebase_permissions'];
+        expect(canManageResourcePermissions(state)).toBeTruthy();
+        state.gnresource.data.perms = ['change_resourcebase', 'view_resourcebase'];
+        expect(canManageResourcePermissions(state)).toBeFalsy();
+        state.gnresource.data.perms = undefined;
+    });
+    it('test isNewMapViewerResource', () => {
+        let state = {...testState, gnresource: {...testState.gnresource, type: ResourceTypes.VIEWER, params: {pk: "new"}}};
+        expect(isNewMapViewerResource(state)).toBeTruthy();
+        state.gnresource.params.pk = '1';
+        expect(isNewMapViewerResource(state)).toBeFalsy();
     });
 });

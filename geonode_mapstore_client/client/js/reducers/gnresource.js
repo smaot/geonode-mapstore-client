@@ -29,7 +29,10 @@ import {
     SET_RESOURCE_COMPACT_PERMISSIONS,
     UPDATE_RESOURCE_COMPACT_PERMISSIONS,
     RESET_GEO_LIMITS,
-    ENABLE_MAP_THUMBNAIL_VIEWER
+    ENABLE_MAP_THUMBNAIL_VIEWER,
+    SET_RESOURCE_EXTENT,
+    SET_RESOURCE_PATH_PARAMETERS,
+    SET_MAP_VIEWER_LINKED_RESOURCE
 } from '@js/actions/gnresource';
 import {
     cleanCompactPermissions,
@@ -214,6 +217,27 @@ function gnresource(state = defaultState, action) {
             };
         }
         return state;
+    case SET_RESOURCE_EXTENT:
+        return {
+            ...state,
+            data: {
+                ...state.data,
+                extent: {
+                    ...state.data?.extent,
+                    coords: action.coords
+                }
+            }
+        };
+    case SET_RESOURCE_PATH_PARAMETERS:
+        return {
+            ...state,
+            params: action.params
+        };
+    case SET_MAP_VIEWER_LINKED_RESOURCE:
+        return {
+            ...state,
+            viewerLinkedResource: action.resource
+        };
     default:
         return state;
     }
